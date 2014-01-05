@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/antlr.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/asm.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/cglib.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/commons-collections.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/dom4j.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/gwt-servlet.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/hibernate-annotations.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/hibernate.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/hsqldb.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/javax.annotation.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/javax.ejb.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/javax.jms.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/javax.persistence.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/javax.resource.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/javax.servlet.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/javax.servlet.jsp.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/javax.servlet.jsp.jstl.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/javax.transaction.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/juniversalchardet-1.0.3.jar"/>
+	<classpathentry kind="lib" path="/Librarian.GWT/war/WEB-INF/lib/postgresql-9.3-1100.jdbc41.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Librarian.GWT"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

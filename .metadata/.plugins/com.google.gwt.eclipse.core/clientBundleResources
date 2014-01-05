@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+<deps cu="=Librarian.GWT/src&lt;ru.lsv.gwtlib.client{Librarian_GWT.java">
+<res path="ru/lsv/gwtlib/client/opened_folder.bmp"/>
+<res path="ru/lsv/gwtlib/client/folder.bmp"/>
+<res path="ru/lsv/gwtlib/client/opened_folder.gif"/>
+<res path="ru/lsv/gwtlib/client/opened_folder.png"/>
+<res path="ru/lsv/gwtlib/client/folder.gif"/>
+<res path="ru/lsv/gwtlib/client/folder.png"/>
+<res path="ru/lsv/gwtlib/client/book.bmp"/>
+<res path="ru/lsv/gwtlib/client/book.jpg"/>
+<res path="ru/lsv/gwtlib/client/opened_folder.jpg"/>
+<res path="ru/lsv/gwtlib/client/book.gif"/>
+<res path="ru/lsv/gwtlib/client/folder.jpg"/>
+<res path="ru/lsv/gwtlib/client/book.png"/>
+</deps>
+</index>
