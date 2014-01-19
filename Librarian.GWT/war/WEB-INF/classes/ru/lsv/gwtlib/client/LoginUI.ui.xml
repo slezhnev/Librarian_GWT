@@ -10,42 +10,54 @@
 	<g:Grid>
 		<g:row>
 			<g:customCell>
-				<g:Label text="User name:"/>
+				<g:Label>
+					<ui:msg key="username">User name</ui:msg>
+					:
+				</g:Label>
 			</g:customCell>
 			<g:customCell>
-				<g:TextBox ui:field="userNameEdit"/>
-			</g:customCell>
-		</g:row>
-		<g:row>
-			<g:customCell>
-				<g:Label text="Password:"/>
-			</g:customCell>
-			<g:customCell>
-				<g:PasswordTextBox ui:field="passwordEdit"/>
+				<g:TextBox ui:field="userNameEdit" />
 			</g:customCell>
 		</g:row>
 		<g:row>
 			<g:customCell>
-				<g:Label text=""/>
+				<g:Label>
+					<ui:msg key="password">Password</ui:msg>
+					:
+				</g:Label>
 			</g:customCell>
 			<g:customCell>
-				<g:CheckBox text="Stay logged" value="true" ui:field="stayLoggedCB" checked="true"/>
-			</g:customCell>
-		</g:row>
-		<g:row>
-			<g:customCell>
-				<g:Label text=""/>
-			</g:customCell>
-			<g:customCell>
-				<g:Label text="errorLabel" ui:field="errorLabel" styleName="serverResponseLabelError"/>
+				<g:PasswordTextBox ui:field="passwordEdit" />
 			</g:customCell>
 		</g:row>
 		<g:row>
 			<g:customCell>
-				<g:Label text=""/>
+				<g:Label text="" />
 			</g:customCell>
 			<g:customCell>
-				<g:Button ui:field="loginBtn" text="Login"/>
+				<g:CheckBox value="true" ui:field="stayLoggedCB" checked="true">
+					<ui:msg key="staylogged">Stay
+						logged</ui:msg>
+				</g:CheckBox>
+			</g:customCell>
+		</g:row>
+		<g:row>
+			<g:customCell>
+				<g:Label text="" />
+			</g:customCell>
+			<g:customCell>
+				<g:Label text="errorLabel" ui:field="errorLabel"
+					styleName="serverResponseLabelError" />
+			</g:customCell>
+		</g:row>
+		<g:row>
+			<g:customCell>
+				<g:Label text="" />
+			</g:customCell>
+			<g:customCell>
+				<g:Button ui:field="loginBtn">
+					<ui:msg key="login">Login</ui:msg>
+				</g:Button>
 			</g:customCell>
 		</g:row>
 	</g:Grid>

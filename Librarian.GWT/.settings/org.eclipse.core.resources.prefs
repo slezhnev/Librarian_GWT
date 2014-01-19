@@ -1,2 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/com/google/gwt/i18n/client/LocalizableResource_ru_RU.properties=UTF-8
+encoding//src/ru/lsv/gwtlib/client/Librarian_GWTMessages_ru_RU.properties=UTF-8
+encoding//src/ru/lsv/gwtlib/client/StatusPopupMessages_ru_RU.properties=UTF-8
 encoding/<project>=UTF-8

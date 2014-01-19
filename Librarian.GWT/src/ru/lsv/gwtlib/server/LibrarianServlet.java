@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -451,6 +452,7 @@ public class LibrarianServlet extends HttpServlet {
 			// авторам
 			String sAuthorId = req.getParameter("authorid");
 			String serie = req.getParameter("serie");
+			String bookId = req.getParameter("bookid");
 			if (reqType != null) {
 				if (name == null) {
 					resp.sendError(400, "Non valid \"name\" parameter");
@@ -474,11 +476,23 @@ public class LibrarianServlet extends HttpServlet {
 					}
 				} else if (serie != null) {
 					// Запрос по серии
-					System.out.println("Serie name: " + serie);
 					res = getBooksBySerie(serie);
+				} else if (bookId != null) {
+					// Запрос по ОДНОЙ книге
+					res = new HashSet<Book>();
+					try {
+						Book book = getBook(Integer.valueOf(bookId));
+						if (book != null) {
+							res.add(book);
+						}
+					} catch (NumberFormatException ex) {
+						resp.sendError(400, "Non valid \"bookid\" parameter");
+						return;
+					}
 				} else {
-					resp.sendError(400,
-							"Non valid request. Must be \"type\" or \"authorid\" or \"serie\" parameter");
+					resp.sendError(
+							400,
+							"Non valid request. Must be \"type\" or \"authorid\" or \"serie\" or \"bookid\" parameter");
 					return;
 				}
 				gsonBuilder.registerTypeAdapter(Book.class,

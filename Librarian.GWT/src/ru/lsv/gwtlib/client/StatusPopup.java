@@ -14,8 +14,6 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.safehtml.client.SafeHtmlTemplates;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -35,57 +33,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class StatusPopup extends Composite {
 
 	/**
-	 * Темплейт для выдачи архивов
-	 * 
-	 * @author s.lezhnev
-	 * 
-	 */
-	public interface ArcsTemplate extends SafeHtmlTemplates {
-		/**
-		 * Сформировать описание обработки архивов
-		 * 
-		 * @param currentArc
-		 *            Номер текущего обрабатываемого архива
-		 * @param totalArcs
-		 *            Общее количество обрабатываемых архивов
-		 * @param currentArcName
-		 *            Название текущего архивного файла
-		 * @return Сформированное описание для засовывания в label
-		 */
-		@Template("Process arcs {0}/{1} (current - {2})")
-		SafeHtml arcsDesc(int currentArc, int totalArcs, String currentArcName);
-	}
-
-	/**
-	 * Темплейт для выдачи файлов
-	 * 
-	 * @author s.lezhnev
-	 */
-	public interface FilesTemplate extends SafeHtmlTemplates {
-		/**
-		 * Сформировать описание обработки файлов
-		 * 
-		 * @param currentFile
-		 *            Номер текущего файла
-		 * @param totalFiles
-		 *            Общее количество файлов
-		 * @return Сформированное описание для засовывания в label
-		 */
-		@Template("Process files {0}/{1}")
-		SafeHtml filesDesc(int currentFile, int totalFiles);
-	}
-
-	/**
 	 * Инстанс темплейта для архивов
 	 */
-	private static final ArcsTemplate ARCSTEMPLATE = GWT
-			.create(ArcsTemplate.class);
-	/**
-	 * Инстанс темплейта для файлов
-	 */
-	private static final FilesTemplate FILESTEMPLATE = GWT
-			.create(FilesTemplate.class);
-
+	private static final StatusPopupMessages POPUPMESSAGES = GWT
+			.create(StatusPopupMessages.class);
 	/**
 	 * UI Binder
 	 */
@@ -165,7 +116,7 @@ public class StatusPopup extends Composite {
 	 */
 	private void updateStatus() {
 		if (currentStatus == null) {
-			statusLabelLibrary.setText("Requesting...");
+			statusLabelLibrary.setText(POPUPMESSAGES.requesting());
 			statusLabelArcs.setText("");
 			statusLabelFiles.setText("");
 			refreshBtn.setEnabled(true);
@@ -173,22 +124,22 @@ public class StatusPopup extends Composite {
 		} else {
 			if (currentStatus.getTotalArcsToProcess() > 0) {
 				statusLabelLibrary.setText(currentStatus.getCurrentLibrary());
-				statusLabelArcs.setText(ARCSTEMPLATE.arcsDesc(
+				statusLabelArcs.setText(POPUPMESSAGES.arcsDesc(
 						currentStatus.getCurrentArcsToProcess(),
 						currentStatus.getTotalArcsToProcess(),
 						currentStatus.getCurrentArcName()).asString());
 				if (currentStatus.getCurrentFileToProcess() > currentStatus
 						.getTotalFilesToProcess()) {
-					statusLabelFiles.setText("Storing books...");
+					statusLabelFiles.setText(POPUPMESSAGES.storingBooks());
 				} else {
-					statusLabelFiles.setText(FILESTEMPLATE.filesDesc(
+					statusLabelFiles.setText(POPUPMESSAGES.filesDesc(
 							currentStatus.getCurrentFileToProcess(),
 							currentStatus.getTotalFilesToProcess()).asString());
 				}
 				forceCheckBtn.setEnabled(false);
 			} else {
 				// А там нихрена не делается
-				statusLabelLibrary.setText("No current checks");
+				statusLabelLibrary.setText(POPUPMESSAGES.noCheck());
 				statusLabelArcs.setText("");
 				statusLabelFiles.setText("");
 				forceCheckBtn.setEnabled(true);

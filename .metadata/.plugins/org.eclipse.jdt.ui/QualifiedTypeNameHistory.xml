@@ -42,4 +42,7 @@
 <fullyQualifiedTypeName name="java.net.URLDecoder"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
+<fullyQualifiedTypeName name="java.lang.NumberFormatException"/>
+<fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="com.google.gwt.i18n.client.Messages"/>
 </qualifiedTypeNameHistroy>

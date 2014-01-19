@@ -5003,3 +5003,293 @@ Rebinding com.google.gwt.user.client.ui.Tree.Resources
       Compiling...
          Compilation completed in 0,02 seconds
       Removing invalidated units
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2718 units from cache.
+Compiling...
+   0% complete (ETR: 79 seconds)
+   10% complete (ETR: 68 seconds)
+   20% complete (ETR: 41 seconds)
+   30% complete (ETR: 31 seconds)
+   40% complete (ETR: 22 seconds)
+   50% complete (ETR: 16 seconds)
+   60% complete (ETR: 12 seconds)
+   70% complete (ETR: 8 seconds)
+   80% complete (ETR: 5 seconds)
+   90% complete (ETR: 2 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 32,17 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2718 cached/archived units.  Used 2718 / 2718 units from cache.
+Compiling...
+   Compilation completed in 0,00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2718 cached/archived units.  Used 2718 / 2718 units from cache.
+Compiling...
+   Compilation completed in 0,02 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2729 units from cache.
+Compiling...
+   50% complete (ETR: 6 seconds)
+   50% complete (ETR: 6 seconds)
+   50% complete (ETR: 6 seconds)
+   50% complete (ETR: 6 seconds)
+   50% complete (ETR: 6 seconds)
+   50% complete (ETR: 6 seconds)
+   60% complete (ETR: 4 seconds)
+   70% complete (ETR: 3 seconds)
+   80% complete (ETR: 2 seconds)
+   90% complete (ETR: 1 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 11,20 seconds
+Removing invalidated units
+Finding entry point classes
+Rebinding com.google.gwt.i18n.client.impl.LocaleInfoImpl
+   Invoking generator com.google.gwt.i18n.rebind.LocaleInfoGenerator
+      Processing interface com.google.gwt.i18n.client.constants.NumberConstantsImpl
+         Generating method body for notANumber()
+         Generating method body for currencyPattern()
+         Generating method body for decimalPattern()
+         Generating method body for decimalSeparator()
+         Generating method body for defCurrencyCode()
+         Generating method body for exponentialSymbol()
+         Generating method body for globalCurrencyPattern()
+         Generating method body for groupingSeparator()
+         Generating method body for infinity()
+         Generating method body for minusSign()
+         Generating method body for monetaryGroupingSeparator()
+         Generating method body for monetarySeparator()
+         Generating method body for percent()
+         Generating method body for percentPattern()
+         Generating method body for perMill()
+         Generating method body for plusSign()
+         Generating method body for scientificPattern()
+         Generating method body for simpleCurrencyPattern()
+         Generating method body for zeroDigit()
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,04 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopup.StatusPopupUiBinder
+   Adding '4' new generated units
+      Compiling...
+         Compilation completed in 0,15 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopupStatusPopupUiBinderImpldesignTime1390133922691GenMessages
+   Invoking generator com.google.gwt.i18n.rebind.LocalizableGenerator
+      Processing interface ru.lsv.gwtlib.client.StatusPopupStatusPopupUiBinderImpldesignTime1390133922691GenMessages
+         Generating method body for message1()
+      Generating ru.lsv.gwtlib.client.StatusPopupStatusPopupUiBinderImpldesignTime1390133922691GenMessages.properties from StatusPopupStatusPopupUiBinderImpldesignTime1390133922691GenMessages_ for locale default
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,07 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopup_StatusPopupUiBinderImpl_designTime1390133922691.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface ru.lsv.gwtlib.client.StatusPopup_StatusPopupUiBinderImpl_designTime1390133922691.Template
+         Generating method body for html1()
+         Generating method body for html2()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,03 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopup_StatusPopupUiBinderImpl_designTime1390133922691_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,55 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopup.StatusPopupUiBinder
+   Adding '4' new generated units
+      Compiling...
+         Compilation completed in 0,03 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopupStatusPopupUiBinderImpldesignTime1390133925792GenMessages
+   Invoking generator com.google.gwt.i18n.rebind.LocalizableGenerator
+      Processing interface ru.lsv.gwtlib.client.StatusPopupStatusPopupUiBinderImpldesignTime1390133925792GenMessages
+         Generating method body for message1()
+      Generating ru.lsv.gwtlib.client.StatusPopupStatusPopupUiBinderImpldesignTime1390133925792GenMessages.properties from StatusPopupStatusPopupUiBinderImpldesignTime1390133925792GenMessages_ for locale default
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopup_StatusPopupUiBinderImpl_designTime1390133925792.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface ru.lsv.gwtlib.client.StatusPopup_StatusPopupUiBinderImpl_designTime1390133925792.Template
+         Generating method body for html1()
+         Generating method body for html2()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopup_StatusPopupUiBinderImpl_designTime1390133925792_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopup.StatusPopupUiBinder
+   Adding '4' new generated units
+      Compiling...
+         Compilation completed in 0,09 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopupStatusPopupUiBinderImpldesignTime1390134318722GenMessages
+   Invoking generator com.google.gwt.i18n.rebind.LocalizableGenerator
+      Processing interface ru.lsv.gwtlib.client.StatusPopupStatusPopupUiBinderImpldesignTime1390134318722GenMessages
+         Generating method body for message1()
+         Generating method body for message2()
+      Generating ru.lsv.gwtlib.client.StatusPopupStatusPopupUiBinderImpldesignTime1390134318722GenMessages.properties from StatusPopupStatusPopupUiBinderImpldesignTime1390134318722GenMessages_ for locale default
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopup_StatusPopupUiBinderImpl_designTime1390134318722.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface ru.lsv.gwtlib.client.StatusPopup_StatusPopupUiBinderImpl_designTime1390134318722.Template
+         Generating method body for html1()
+         Generating method body for html2()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopup_StatusPopupUiBinderImpl_designTime1390134318722_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,03 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopup.StatusPopupUiBinder
+   Adding '4' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopupStatusPopupUiBinderImpldesignTime1390134318939GenMessages
+   Invoking generator com.google.gwt.i18n.rebind.LocalizableGenerator
+      Processing interface ru.lsv.gwtlib.client.StatusPopupStatusPopupUiBinderImpldesignTime1390134318939GenMessages
+         Generating method body for message1()
+         Generating method body for message2()
+      Generating ru.lsv.gwtlib.client.StatusPopupStatusPopupUiBinderImpldesignTime1390134318939GenMessages.properties from StatusPopupStatusPopupUiBinderImpldesignTime1390134318939GenMessages_ for locale default
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopup_StatusPopupUiBinderImpl_designTime1390134318939.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface ru.lsv.gwtlib.client.StatusPopup_StatusPopupUiBinderImpl_designTime1390134318939.Template
+         Generating method body for html1()
+         Generating method body for html2()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.StatusPopup_StatusPopupUiBinderImpl_designTime1390134318939_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2729 units from cache.
+Compiling...
+   30% complete (ETR: 8 seconds)
+   30% complete (ETR: 8 seconds)
+   30% complete (ETR: 8 seconds)
+   30% complete (ETR: 8 seconds)
+   40% complete (ETR: 8 seconds)
+   50% complete (ETR: 7 seconds)
+   60% complete (ETR: 5 seconds)
+   70% complete (ETR: 4 seconds)
+   80% complete (ETR: 3 seconds)
+   90% complete (ETR: 1 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 16,15 seconds
+Removing invalidated units
+Finding entry point classes
+Rebinding com.google.gwt.i18n.client.impl.LocaleInfoImpl
+   Invoking generator com.google.gwt.i18n.rebind.LocaleInfoGenerator
+      Processing interface com.google.gwt.i18n.client.constants.NumberConstantsImpl
+         Generating method body for notANumber()
+         Generating method body for currencyPattern()
+         Generating method body for decimalPattern()
+         Generating method body for decimalSeparator()
+         Generating method body for defCurrencyCode()
+         Generating method body for exponentialSymbol()
+         Generating method body for globalCurrencyPattern()
+         Generating method body for groupingSeparator()
+         Generating method body for infinity()
+         Generating method body for minusSign()
+         Generating method body for monetaryGroupingSeparator()
+         Generating method body for monetarySeparator()
+         Generating method body for percent()
+         Generating method body for percentPattern()
+         Generating method body for perMill()
+         Generating method body for plusSign()
+         Generating method body for scientificPattern()
+         Generating method body for simpleCurrencyPattern()
+         Generating method body for zeroDigit()
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,04 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.LoginUI.LoginUIUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,04 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.LoginUI_LoginUIUiBinderImpl_designTime1390136141915_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.LoginUI.LoginUIUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.LoginUI_LoginUIUiBinderImpl_designTime1390136142833_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.LoginUI.LoginUIUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.LoginUI_LoginUIUiBinderImpl_designTime1390136211939.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface ru.lsv.gwtlib.client.LoginUI_LoginUIUiBinderImpl_designTime1390136211939.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.LoginUI_LoginUIUiBinderImpl_designTime1390136211939_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.LoginUI.LoginUIUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.LoginUI_LoginUIUiBinderImpl_designTime1390136212079.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface ru.lsv.gwtlib.client.LoginUI_LoginUIUiBinderImpl_designTime1390136212079.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding ru.lsv.gwtlib.client.LoginUI_LoginUIUiBinderImpl_designTime1390136212079_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units

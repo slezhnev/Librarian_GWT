@@ -125,6 +125,11 @@ public class Librarian_GWT implements EntryPoint {
 	 * Кнопка разлогинивания
 	 */
 	private Button logoffBtn;
+	/**
+	 * Сообщения для локализации
+	 */
+	private Librarian_GWTMessages messages = GWT
+			.create(Librarian_GWTMessages.class);
 
 	/**
 	 * Обработчик нажатия кнопок на дереве
@@ -232,7 +237,7 @@ public class Librarian_GWT implements EntryPoint {
 
 		SimplePanel simplePanel_1 = new SimplePanel();
 		dockLayoutPanel.addNorth(simplePanel_1, 1.0);
-		errorLabel = new Label("");
+		errorLabel = new Label();
 		simplePanel_1.setWidget(errorLabel);
 		errorLabel.setSize("100%", "100%");
 		errorLabel.setStylePrimaryName("serverResponseLabelError");
@@ -251,42 +256,39 @@ public class Librarian_GWT implements EntryPoint {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		verticalPanel.add(horizontalPanel);
 		horizontalPanel.setSpacing(10);
-		horizontalPanel.setWidth("");
 
-		cbShowNew = new CheckBox("Show only new");
+		cbShowNew = new CheckBox();
 		cbShowNew.addValueChangeHandler(cbGroupH);
-		cbShowNew.setHTML("Show new");
+		cbShowNew.setHTML(messages.showNew());
 		horizontalPanel.add(cbShowNew);
 
-		cbShowForReading = new CheckBox("Show for reading");
-		cbShowForReading.setHTML("Show for reading");
+		cbShowForReading = new CheckBox();
+		cbShowForReading.setHTML(messages.showForReading());
 		cbShowForReading.addValueChangeHandler(cbGroupH);
 		horizontalPanel.add(cbShowForReading);
 
-		cbShowReaded = new CheckBox("Show readed");
-		cbShowReaded.setText("Show readed");
+		cbShowReaded = new CheckBox();
+		cbShowReaded.setText(messages.showReaded());
 		cbShowReaded.addValueChangeHandler(cbGroupH);
 		horizontalPanel.add(cbShowReaded);
 
 		CaptionPanel captionPanel = new CaptionPanel();
 		verticalPanel.add(captionPanel);
-		captionPanel.setCaptionText("Work with:");
-		captionPanel.setWidth("");
+		captionPanel.setCaptionText(messages.workWith() + ":");
 
 		HorizontalPanel horizontalPanel_2 = new HorizontalPanel();
 		horizontalPanel_2.setSpacing(10);
 		captionPanel.setContentWidget(horizontalPanel_2);
-		horizontalPanel_2.setSize("", "");
 
-		rbAuthors = new RadioButton("new name", "Authors");
+		rbAuthors = new RadioButton("WorkWithRBGroup", messages.authors());
 		rbAuthors.addValueChangeHandler(rbGroupHandler);
 		horizontalPanel_2.add(rbAuthors);
 
-		rbSeries = new RadioButton("new name", "Series");
+		rbSeries = new RadioButton("WorkWithRBGroup", messages.series());
 		rbSeries.addValueChangeHandler(rbGroupHandler);
 		horizontalPanel_2.add(rbSeries);
 
-		rbBooks = new RadioButton("new name", "Books");
+		rbBooks = new RadioButton("WorkWithRBGroup", messages.books());
 		rbBooks.addValueChangeHandler(rbGroupHandler);
 		horizontalPanel_2.add(rbBooks);
 
@@ -311,13 +313,13 @@ public class Librarian_GWT implements EntryPoint {
 
 		});
 
-		searchBtn = new Button("New button");
+		searchBtn = new Button();
 		searchBtn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				doSearch();
 			}
 		});
-		searchBtn.setText("Search");
+		searchBtn.setText(messages.search());
 		horizontalPanel_3.add(searchBtn);
 		horizontalPanel_3.setCellHorizontalAlignment(searchBtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);
@@ -344,7 +346,8 @@ public class Librarian_GWT implements EntryPoint {
 				return object.toString();
 			}
 		};
-		searchResultDataGrid.addColumn(searchResultColumn, "Search results");
+		searchResultDataGrid.addColumn(searchResultColumn,
+				messages.searchResults());
 		searchResultDataGrid.setRowData(new ArrayList<SearchListElement>());
 
 		rbAuthors.setValue(true, true);
@@ -355,7 +358,7 @@ public class Librarian_GWT implements EntryPoint {
 		DockLayoutPanel dockLayoutPanel_1 = new DockLayoutPanel(Unit.EM);
 		dockLayoutPanel_2.addSouth(dockLayoutPanel_1, 20.0);
 
-		Label lblNewLabel_1 = new Label("Book description");
+		Label lblNewLabel_1 = new Label(messages.bookDescription());
 		dockLayoutPanel_1.addNorth(lblNewLabel_1, 1.5);
 		lblNewLabel_1
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
@@ -397,13 +400,12 @@ public class Librarian_GWT implements EntryPoint {
 		dockLayoutPanel_4.addNorth(dockLayoutPanel_5, 2.0);
 		dockLayoutPanel_5.setSize("100", "33");
 
-		logoffBtn = new Button("New button");
+		logoffBtn = new Button();
 		dockLayoutPanel_5.addEast(logoffBtn, 5.0);
-		logoffBtn.setSize("", "");
-		logoffBtn.setText("Logoff");
+		logoffBtn.setText(messages.logoff());
 		logoffBtn.setEnabled(false);
 
-		Button loadStatusBtn = new Button("Load status");
+		Button loadStatusBtn = new Button(messages.loadStatus());
 		loadStatusBtn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				(new StatusPopup()).show();
@@ -419,7 +421,7 @@ public class Librarian_GWT implements EntryPoint {
 
 		});
 
-		Label lblBooks = new Label("Books");
+		Label lblBooks = new Label(messages.books());
 		lblBooks.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		dockLayoutPanel_4.add(lblBooks);
 
@@ -479,12 +481,12 @@ public class Librarian_GWT implements EntryPoint {
 
 				@Override
 				public void onError(Request request, Throwable exception) {
-					errorLabel.setText("Error while accessing server side");
+					errorLabel.setText(messages.serverSideError());
 				}
 
 			});
 		} catch (RequestException e) {
-			errorLabel.setText("Error while accessing server side");
+			errorLabel.setText(messages.serverSideError());
 		}
 
 	}
@@ -511,18 +513,18 @@ public class Librarian_GWT implements EntryPoint {
 						LoginPopupPanel loginPopup = new LoginPopupPanel();
 						loginPopup.setPopupPositionAndShow(loginPopup);
 					} else {
-						errorLabel.setText("Failed to logoff");
+						errorLabel.setText(messages.failLogoff());
 					}
 				}
 
 				@Override
 				public void onError(Request request, Throwable exception) {
-					errorLabel.setText("Failed to logoff");
+					errorLabel.setText(messages.failLogoff());
 				}
 
 			});
 		} catch (RequestException e) {
-			errorLabel.setText("Failed to logoff");
+			errorLabel.setText(messages.failLogoff());
 		}
 	}
 
@@ -569,19 +571,19 @@ public class Librarian_GWT implements EntryPoint {
 									(ClientBook) selectedItem.getUserObject(),
 									(Label) selectedItem.getWidget());
 						} else {
-							errorLabel
-									.setText("Error while updating book - update does not return TRUE");
+							errorLabel.setText(messages
+									.updateBookErrorNotTrue());
 						}
 					}
 
 					@Override
 					public void onError(Request request, Throwable exception) {
-						errorLabel.setText("Error while updating book");
+						errorLabel.setText(messages.updateBookError());
 					}
 
 				});
 			} catch (RequestException e) {
-				errorLabel.setText("Couldn't retrieve JSON on search");
+				errorLabel.setText(messages.jsonRetrieveError());
 			}
 		}
 	}
@@ -619,19 +621,18 @@ public class Librarian_GWT implements EntryPoint {
 						searchResultDataGrid.getSelectionModel().setSelected(
 								res, true);
 					} catch (IllegalArgumentException ex) {
-						errorLabel
-								.setText("Error while author loading - non JSON answer");
+						errorLabel.setText(messages.nonJsonAnswer());
 					}
 				}
 
 				@Override
 				public void onError(Request request, Throwable exception) {
-					errorLabel.setText("Error while author loading");
+					errorLabel.setText(messages.jsonRetrieveError());
 				}
 
 			});
 		} catch (RequestException e) {
-			errorLabel.setText("Couldn't retrieve JSON on search");
+			errorLabel.setText(messages.jsonRetrieveError());
 		}
 	}
 
@@ -643,27 +644,30 @@ public class Librarian_GWT implements EntryPoint {
 	 */
 	protected void doFormBookDescription(ClientBook book) {
 		SafeHtmlBuilder str = new SafeHtmlBuilder();
-		str.append(SafeHtmlUtils.fromTrustedString("<b>Название: </b>&nbsp;"));
+		str.append(SafeHtmlUtils.fromTrustedString("<b>" + messages.bookName()
+				+ ": </b>&nbsp;"));
 		StringBuilder strUrl = new StringBuilder(GWT.getModuleBaseURL())
 				.append("librarian?&req=downloadbook&bookid=").append(
 						book.getBookId());
 		str.appendHtmlConstant("<a href=" + strUrl.toString()
 				+ " target=_blank>");
 		if (book.getTitle() == null)
-			str.appendEscaped("Нет названия");
+			str.appendEscaped(messages.noBookName());
 		else
 			str.appendEscaped(book.getTitle());
 		str.appendHtmlConstant("</a>");
 		str.appendHtmlConstant("<br>");
 		if ((book.getSerieName() != null)
 				&& (book.getSerieName().trim().length() > 0)) {
-			str.append(SafeHtmlUtils.fromTrustedString("<b>Серия: </b>&nbsp;"))
-					.appendEscaped(
-							book.getSerieName() + " - " + book.getNumInSerie());
+			str.append(
+					SafeHtmlUtils.fromTrustedString("<b>" + messages.serie()
+							+ ": </b>&nbsp;")).appendEscaped(
+					book.getSerieName() + " - " + book.getNumInSerie());
 			str.append(SafeHtmlUtils.fromTrustedString("<br>"));
 		}
 		str.appendHtmlConstant("<br>");
-		str.append(SafeHtmlUtils.fromTrustedString("<b>Авторы:</b><br>"));
+		str.append(SafeHtmlUtils.fromTrustedString("<b>" + messages.authors()
+				+ ":</b><br>"));
 		for (int i = 0; i < book.getAuthors().length(); i++) {
 			ClientAuthor author = book.getAuthors().get(i);
 			str.appendHtmlConstant("<a href=#" + author.getAuthorId() + ">")
@@ -677,14 +681,17 @@ public class Librarian_GWT implements EntryPoint {
 			str.appendHtmlConstant("</a>").appendHtmlConstant("<br>");
 		}
 		str.appendHtmlConstant("<br>");
-		str.append(SafeHtmlUtils.fromTrustedString("<b>Архив:</b><br>"))
-				.appendEscaped(book.getZipFileName())
+		str.append(
+				SafeHtmlUtils.fromTrustedString("<b>" + messages.archive()
+						+ ":</b><br>")).appendEscaped(book.getZipFileName())
 				.appendHtmlConstant("<br>");
-		str.append(SafeHtmlUtils.fromTrustedString("<b>Имя файла:</b><br>"))
-				.appendEscaped(book.getId());
+		str.append(
+				SafeHtmlUtils.fromTrustedString("<b>" + messages.fileName()
+						+ ":</b><br>")).appendEscaped(book.getId());
 		if (book.getDeletedInLibrary()) {
 			str.append(SafeHtmlUtils
-					.fromTrustedString("<br><br><b>УДАЛЕНА В БИБЛИОТЕКЕ</b><br>"));
+					.fromTrustedString("<br><br><b><font color=red>"
+							+ messages.deletedInLibrary() + "</red></b><br>"));
 		}
 		htmlBookDescription.setHTML(str.toSafeHtml());
 	}
@@ -763,28 +770,30 @@ public class Librarian_GWT implements EntryPoint {
 							} else {
 								booksTree.addItem(bookItem);
 							}
+							// А если оно одно - то сразу и выберем
+							if (books.length() == 1) {
+								booksTree.setSelectedItem(bookItem);
+							}
 						}
 						errorLabel.setText("");
 					} else {
-						errorLabel
-								.setText("Couldn't retrieve JSON on books load (status code - "
-										+ response.getStatusCode() + ")");
+						errorLabel.setText(messages.jsonRetrieveError());
 					}
 				} catch (IllegalArgumentException e) {
-					errorLabel
-							.setText("Error while books loading - non JSON answer");
+					errorLabel.setText(messages.nonJsonAnswer());
 				}
 			}
 
 			@Override
 			public void onError(Request request, Throwable exception) {
-				errorLabel.setText("Couldn't retrieve JSON on books load");
+				errorLabel.setText(messages.jsonRetrieveError());
 			}
 
 		}
 		booksTree.clear();
 		lastSelectedItem = null;
-		booksTree.addItem(new TreeItem(SafeHtmlUtils.fromString("Loading...")));
+		booksTree.addItem(new TreeItem(SafeHtmlUtils.fromString(messages
+				.loading())));
 		StringBuilder strUrl = new StringBuilder(GWT.getModuleBaseURL())
 				.append("librarian?userid=").append(currentUserId)
 				.append("&req=books");
@@ -803,7 +812,7 @@ public class Librarian_GWT implements EntryPoint {
 		try {
 			builder.sendRequest(null, new LoadBookCallback());
 		} catch (RequestException e) {
-			errorLabel.setText("Couldn't retrieve JSON on books load");
+			errorLabel.setText(messages.jsonRetrieveError());
 		}
 	}
 
@@ -814,7 +823,7 @@ public class Librarian_GWT implements EntryPoint {
 		//
 		searchResultDataGrid.setVisibleRangeAndClearData(
 				searchResultDataGrid.getVisibleRange(), true);
-		searchBtn.setText("Searching...");
+		searchBtn.setText(messages.searching());
 		searchBtn.setEnabled(false);
 		//
 		// Формируем тип запроса
@@ -864,7 +873,7 @@ public class Librarian_GWT implements EntryPoint {
 			@Override
 			public void onResponseReceived(Request request, Response response) {
 				errorLabel.setText("");
-				searchBtn.setText("Search");
+				searchBtn.setText(messages.search());
 				searchBtn.setEnabled(true);
 				List<SearchListElement> result = new ArrayList<SearchListElement>();
 				try {
@@ -896,8 +905,7 @@ public class Librarian_GWT implements EntryPoint {
 					default:
 					}
 				} catch (IllegalArgumentException e) {
-					errorLabel
-							.setText("Error while searching - non JSON answer");
+					errorLabel.setText(messages.nonJsonAnswer());
 				}
 				searchResultDataGrid.setRowData(result);
 			}
@@ -929,7 +937,7 @@ public class Librarian_GWT implements EntryPoint {
 		try {
 			builder.sendRequest(null, new SearchRequestCallback(requestType));
 		} catch (RequestException e) {
-			errorLabel.setText("Couldn't retrieve JSON on search");
+			errorLabel.setText(messages.jsonRetrieveError());
 		}
 	}
 
@@ -937,8 +945,8 @@ public class Librarian_GWT implements EntryPoint {
 	 * Обработка ошибки запроса в doSearch
 	 */
 	private void searchCallbackOnError() {
-		errorLabel.setText("Couldn't retrieve JSON on search");
-		searchBtn.setText("Search");
+		errorLabel.setText(messages.jsonRetrieveError());
+		searchBtn.setText(messages.search());
 		searchBtn.setEnabled(true);
 	}
 

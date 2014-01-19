@@ -53,9 +53,9 @@
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/LoginUI.ui.xml" name="loginBtn"/>
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="refreshBtn"/>
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="statusLabelLibrary"/>
+<uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="statusLabelFiles"/>
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="style"/>
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="forceCheckBtn"/>
-<uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="statusLabelFiles"/>
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="statusLabelArcs"/>
 </uiXmlReferencedFields>
 </uiBinderReferences>
