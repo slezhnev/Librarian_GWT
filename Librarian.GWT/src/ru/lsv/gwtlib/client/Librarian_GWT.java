@@ -127,6 +127,37 @@ public class Librarian_GWT implements EntryPoint {
 	private Button logoffBtn;
 
 	/**
+	 * Обработчик нажатия кнопок на дереве
+	 * 
+	 * @author s.lezhnev
+	 */
+	private final class BooksKeyClickProcessor implements KeyPressHandler {
+		@Override
+		public void onKeyPress(KeyPressEvent event) {
+			// Проверяем на то, что выбрана именно книга
+			if ((booksTree.getSelectedItem() != null)
+					&& (booksTree.getSelectedItem().getWidget() != null)
+					&& (booksTree.getSelectedItem().getUserObject() != null)) {
+				if ((event.getCharCode() == 'r')
+						|| (event.getCharCode() == 'к')) {
+					updateBook(booksTree.getSelectedItem(),
+							!((ClientBook) booksTree.getSelectedItem()
+									.getUserObject()).isReaded(),
+							((ClientBook) booksTree.getSelectedItem()
+									.getUserObject()).isMustRead());
+				} else if ((event.getCharCode() == 'd')
+						|| (event.getCharCode() == 'в')) {
+					updateBook(booksTree.getSelectedItem(),
+							((ClientBook) booksTree.getSelectedItem()
+									.getUserObject()).isReaded(),
+							!((ClientBook) booksTree.getSelectedItem()
+									.getUserObject()).isMustRead());
+				}
+			}
+		}
+	}
+
+	/**
 	 * Бандлы картинок для дерева
 	 * 
 	 * @author s.lezhnev
@@ -334,6 +365,7 @@ public class Librarian_GWT implements EntryPoint {
 		dockLayoutPanel_1.addWest(simplePanel_2, 1.0);
 
 		htmlBookDescription = new HTML("", true);
+		htmlBookDescription.setStyleName("bordered");
 		dockLayoutPanel_1.add(htmlBookDescription);
 		htmlBookDescription.setSize("100%", "100%");
 		// Обрабатываем нажатие на автора
@@ -392,6 +424,7 @@ public class Librarian_GWT implements EntryPoint {
 		dockLayoutPanel_4.add(lblBooks);
 
 		ScrollPanel scrollPanel_1 = new ScrollPanel();
+		scrollPanel_1.setStyleName("bordered");
 		dockLayoutPanel_2.add(scrollPanel_1);
 		scrollPanel_1.setSize("100%", "100%");
 
@@ -420,31 +453,7 @@ public class Librarian_GWT implements EntryPoint {
 			}
 		});
 		// Обрабатываем нажатие r (readed) и d (must read)
-		booksTree.addKeyPressHandler(new KeyPressHandler() {
-
-			@Override
-			public void onKeyPress(KeyPressEvent event) {
-				// Проверяем на то, что выбрана именно книга
-				if ((booksTree.getSelectedItem() != null)
-						&& (booksTree.getSelectedItem().getWidget() != null)
-						&& (booksTree.getSelectedItem().getUserObject() != null)) {
-					if (event.getCharCode() == 'r') {
-						updateBook(booksTree.getSelectedItem(),
-								!((ClientBook) booksTree.getSelectedItem()
-										.getUserObject()).isReaded(),
-								((ClientBook) booksTree.getSelectedItem()
-										.getUserObject()).isMustRead());
-					} else if (event.getCharCode() == 'd') {
-						updateBook(booksTree.getSelectedItem(),
-								((ClientBook) booksTree.getSelectedItem()
-										.getUserObject()).isReaded(),
-								!((ClientBook) booksTree.getSelectedItem()
-										.getUserObject()).isMustRead());
-					}
-				}
-			}
-
-		});
+		booksTree.addKeyPressHandler(new BooksKeyClickProcessor());
 
 		// Делаем запрос для проверки авторизации
 		StringBuilder strUrl = new StringBuilder(GWT.getModuleBaseURL())
@@ -697,6 +706,9 @@ public class Librarian_GWT implements EntryPoint {
 			bookLabel.addStyleDependentName("mustread");
 		} else {
 			bookLabel.removeStyleDependentName("mustread");
+		}
+		if (book.getDeletedInLibrary()) {
+			bookLabel.addStyleDependentName("deleted");
 		}
 	}
 

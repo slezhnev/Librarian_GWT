@@ -37,8 +37,8 @@
 </references>
 </referenceManager>
 <uiBinderSubtypeToOwner>
-<entry owner="ru.lsv.gwtlib.client.StatusPopup" uiBinder="=Librarian.GWT/src&lt;ru.lsv.gwtlib.client{StatusPopup.java[StatusPopup[StatusPopupUiBinder"/>
 <entry owner="ru.lsv.gwtlib.client.LoginUI" uiBinder="=Librarian.GWT/src&lt;ru.lsv.gwtlib.client{LoginUI.java[LoginUI[LoginUIUiBinder"/>
+<entry owner="ru.lsv.gwtlib.client.StatusPopup" uiBinder="=Librarian.GWT/src&lt;ru.lsv.gwtlib.client{StatusPopup.java[StatusPopup[StatusPopupUiBinder"/>
 </uiBinderSubtypeToOwner>
 <uiBinderSubtypeToUiXml>
 <entry uiBinder="=Librarian.GWT/src&lt;ru.lsv.gwtlib.client{LoginUI.java[LoginUI[LoginUIUiBinder" uiXmlPath="ru/lsv/gwtlib/client/LoginUI.ui.xml"/>
@@ -53,9 +53,9 @@
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/LoginUI.ui.xml" name="loginBtn"/>
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="refreshBtn"/>
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="statusLabelLibrary"/>
+<uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="style"/>
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="forceCheckBtn"/>
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="statusLabelFiles"/>
-<uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="style"/>
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/StatusPopup.ui.xml" name="statusLabelArcs"/>
 </uiXmlReferencedFields>
 </uiBinderReferences>

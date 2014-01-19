@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<item value="2" key="TypeHierarchyViewPart.hierarchyview"/>
-	<item value="3" key="TypeHierarchyViewPart.orientation"/>
 	<item value="false" key="TypeHierarchyViewPart.qualifiednames"/>
+	<item value="3" key="TypeHierarchyViewPart.orientation"/>
 	<item value="false" key="TypeHierarchyViewPart.linkeditors"/>
+	<section name="ConvertAnonymousToNestedWizard">
+		<item value="false" key="DeclareAsStatic"/>
+		<item value="2" key="VisibilityControl"/>
+		<item value="true" key="DeclareAsFinal"/>
+	</section>
 	<section name="BuildPathsPropertyPage">
 		<item value="2" key="pageIndex"/>
 	</section>
@@ -17,8 +22,8 @@
 		<item value="9" key="index"/>
 	</section>
 	<section name="SourceActionDialog.methods">
-		<item value="false" key="Comments"/>
 		<item value="1" key="VisibilityModifier"/>
+		<item value="false" key="Comments"/>
 		<item value="2" key="InsertPosition.v2"/>
 		<item value="false" key="SynchronizedModifier"/>
 		<item value="false" key="FinalModifier"/>
@@ -45,13 +50,13 @@
 	<section name="DialogBounds_GetterSetterTreeSelectionDialog">
 		<item value="529" key="DIALOG_WIDTH"/>
 		<item value="37" key="DIALOG_Y_ORIGIN"/>
-		<item value="696" key="DIALOG_HEIGHT"/>
 		<item value="575" key="DIALOG_X_ORIGIN"/>
+		<item value="696" key="DIALOG_HEIGHT"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
-	<section name="org.eclipse.ltk.ui.refactoring.settings">
-	</section>
 	<section name="RenameInformationPopup">
+	</section>
+	<section name="org.eclipse.ltk.ui.refactoring.settings">
 	</section>
 	<section name="AddGetterSetterDialog">
 		<item value="false" key="RemoveFinal"/>
