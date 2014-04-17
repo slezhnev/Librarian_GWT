@@ -8,10 +8,15 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.swing.JButton;
@@ -22,12 +27,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HttpContext;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 @SuppressWarnings("serial")
 public class ConnectToLibrary extends JDialog {
@@ -253,30 +259,41 @@ public class ConnectToLibrary extends JDialog {
 				addressText.getText()).append(requestUrl);
 		// Сохраним URL
 		url = str.toString();
-		str.append("?user=").append(userNameText.getText()).append("&psw=")
-				.append(passwordText.getPassword()).append("&staylogged=false");
-		HttpGet httpGet = new HttpGet(str.toString());
+		HttpPost httpPost = new HttpPost(str.toString());
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+		nameValuePairs.add(new BasicNameValuePair("user", userNameText
+				.getText()));
+		nameValuePairs.add(new BasicNameValuePair("psw", new String(
+				passwordText.getPassword())));
+		nameValuePairs.add(new BasicNameValuePair("staylogged", "false"));
+		try {
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		} catch (UnsupportedEncodingException e1) {
+			httpPost.abort();
+			errorLabel.setText("Ошибка формирования post-запроса на логин");
+			return false;
+		}
 		HttpResponse response;
 		try {
-			response = httpclient.execute(httpGet, httpContext);
+			response = httpclient.execute(httpPost, httpContext);
 		} catch (ClientProtocolException e) {
-			httpGet.abort();
+			httpPost.abort();
 			errorLabel.setText("Неверно задан адрес");
 			return false;
 		} catch (IOException e) {
-			httpGet.abort();
+			httpPost.abort();
 			errorLabel.setText("Ошибка ввода/вывода");
 			e.printStackTrace();
 			return false;
 		}
 		if (response.getStatusLine().getStatusCode() == 200) {
-			httpGet.abort();
+			httpPost.abort();
 			saveProperties();
 			connected = true;
 			return true;
 		} else {
 			errorLabel.setText("Ошибка авторизации");
-			httpGet.abort();
+			httpPost.abort();
 			return false;
 		}
 	}
