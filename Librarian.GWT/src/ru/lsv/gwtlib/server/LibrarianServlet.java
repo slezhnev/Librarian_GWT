@@ -11,30 +11,22 @@ import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -57,6 +49,7 @@ import ru.lsv.gwtlib.server.library.LoadStatus;
 import ru.lsv.gwtlib.shared.RequestType;
 
 import com.google.gson.GsonBuilder;
+import com.google.gwt.http.client.Response;
 
 /**
  * Основной сервлет. <br/>
@@ -68,60 +61,6 @@ import com.google.gson.GsonBuilder;
 public class LibrarianServlet extends HttpServlet {
 
 	/**
-	 * Класс для хранения параметров сессии (в БД не буду хранить сугубо из-за
-	 * простоты)
-	 * 
-	 * @author s.lezhnev
-	 * 
-	 */
-	private static class SessionStorage {
-
-		/**
-		 * Период валидности В СУТКАХ!
-		 */
-		public static int EXPIRATION_PERIOD = 180;
-
-		/**
-		 * id пользователя в БД
-		 */
-		private int userId;
-
-		/**
-		 * @return the userId
-		 */
-		public int getUserId() {
-			return userId;
-		}
-
-		/**
-		 * @return the validTill
-		 */
-		public Date getValidTill() {
-			return validTill;
-		}
-
-		/**
-		 * Время валидности сессии
-		 */
-		private Date validTill;
-
-		/**
-		 * Default constructor <br/>
-		 * По умолчанию сессия считается валидной 180 дней
-		 * 
-		 * @param userId
-		 *            Идентификатор пользователя
-		 */
-		public SessionStorage(int userId) {
-			super();
-			this.userId = userId;
-			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.DATE, EXPIRATION_PERIOD);
-			this.validTill = cal.getTime();
-		}
-	}
-
-	/**
 	 * Hibernate session factory
 	 */
 	protected SessionFactory libFactory = null;
@@ -131,17 +70,6 @@ public class LibrarianServlet extends HttpServlet {
 	 * Открывается и закрывается в doGet
 	 */
 	protected Session sess;
-	/**
-	 * Inmemory хранилище сессий
-	 */
-	protected Map<String, SessionStorage> httpSessionStorage = Collections
-			.synchronizedMap(new HashMap<String, SessionStorage>());
-	/**
-	 * Валидатор сессий <br/>
-	 * Запускается раз в день (не такой уж безумный тут у меня уровень
-	 * безопасности)
-	 */
-	protected ScheduledExecutorService validatorService;
 
 	/*
 	 * (non-Javadoc)
@@ -164,26 +92,47 @@ public class LibrarianServlet extends HttpServlet {
 		// работы
 		sess = libFactory.openSession();
 		sess.close();
-		// Запускаем валидатор
-		validatorService = Executors.newSingleThreadScheduledExecutor();
-		validatorService.scheduleWithFixedDelay(new Runnable() {
-
-			@Override
-			public void run() {
-				Date current = new Date();
-				for (String sid : httpSessionStorage.keySet()) {
-					if (current.compareTo(httpSessionStorage.get(sid)
-							.getValidTill()) > 0) {
-						// Если текущая дата уже БОЛЬШЕ validTill - значит
-						// сессия нифига не валидная уже
-						httpSessionStorage.remove(sid);
-					}
-				}
-			}
-
-		}, 0, 1, TimeUnit.DAYS);
 		// Запускаем шедулер работы с библиотеками
 		LibrarySheduler.getScheduler(libFactory);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
+		HttpSession sess = req.getSession(true);
+		// Попытаемся получить юзера из сессии
+		LibUser currentUser = (LibUser) sess.getAttribute("user");
+		// Первое - если нет сессии - шлем ошибку
+		if (currentUser == null) {
+			// Нету авторизации. Проверим - а может это как раз запрос
+			// на авторизацию?
+			if ((req.getParameter("user") != null)
+					&& (req.getParameter("psw") != null)
+					&& (req.getParameter("staylogged") != null)) {
+				// Действительно запрос на авторизацию. Ну поехали
+				// авторизоваться...
+				LibUser currUser = validateLogin(req.getParameter("user"),
+						req.getParameter("psw"));
+				if (currUser != null) {
+					sess.setAttribute("user", currUser);
+					resp.setCharacterEncoding("UTF-8");
+					resp.setContentType("application/json");
+					try (PrintStream output = new PrintStream(
+							resp.getOutputStream(), true, "UTF-8")) {
+						output.println("true");
+						return;
+					}
+				} else {
+					// Юзер попался невалидный
+					resp.sendError(401, "Authentication failed");
+					return;
+				}
+			} else {
+				resp.sendError(401, "Authorization required");
+				return;
+			}
+		}
 	}
 
 	/*
@@ -199,67 +148,20 @@ public class LibrarianServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		sess = libFactory.openSession();
 		try {
-			SessionStorage currentSession = null;
-			String currentSID = null;
-			// Первое - валидируем сессию!
-			Cookie[] cookies = req.getCookies();
-			if (cookies != null) {
-				for (Cookie cookie : cookies) {
-					if (("sid".equals(cookie.getName()))
-							&& (httpSessionStorage.containsKey(cookie
-									.getValue()))) {
-						currentSession = httpSessionStorage.get(cookie
-								.getValue());
-						currentSID = cookie.getValue();
-						break;
-					}
-				}
+			req.setCharacterEncoding("UTF-8");
+			HttpSession httpSess = req.getSession(true);
+			// Попытаемся получить юзера из сессии
+			LibUser currentUser = (LibUser) httpSess.getAttribute("user");
+			if (currentUser == null) {
+				// Выкинем 401 - пусть разбирается...
+				resp.sendError(Response.SC_UNAUTHORIZED);
+				return;
 			}
-			// Первое - если нет сессии - шлем ошибку
-			if (currentSession == null) {
-				// Нету авторизации. Проверим - а может это как раз запрос
-				// на авторизацию?
-				if ((req.getParameter("user") != null)
-						&& (req.getParameter("psw") != null)
-						&& (req.getParameter("staylogged") != null)) {
-					// Действительно запрос на авторизацию. Ну поехали
-					// авторизоваться...
-					LibUser currUser = validateLogin(req.getParameter("user"),
-							req.getParameter("psw"));
-					if (currUser != null) {
-						// Сохраняем сессию
-						currentSession = new SessionStorage(currUser.getId());
-						// Генерируем sid
-						currentSID = CommonUtils.getMD5("" + (new Date()));
-						httpSessionStorage.put(currentSID, currentSession);
-						// Выставляем куку
-						Cookie cookie = new Cookie("sid", currentSID);
-						if ("true".equals(req.getParameter("staylogged"))) {
-							cookie.setMaxAge(SessionStorage.EXPIRATION_PERIOD * 24 * 60 * 60);
-						} else {
-							cookie.setMaxAge(-1);
-						}
-						resp.addCookie(cookie);
-						// Авторизовались. Больше ничего делать не будем
-						return;
-					} else {
-						// Юзер попался невалидный
-						resp.sendError(401, "Authentication failed");
-						return;
-					}
-				} else {
-					resp.sendError(401, "Authorization required");
-					return;
-				}
-			}
-			// Парсим запрос
-			int userId = currentSession.getUserId();
-			/*
-			 * Оставшийся кусок для указания uderID через запрос try { userId =
-			 * Integer.valueOf(req.getParameter("userid")); } catch
-			 * (NumberFormatException ex) { resp.sendError(400,
-			 * "Cannot find \"userId\" parameter"); return; }
-			 */
+			resp.setCharacterEncoding("UTF-8");
+			resp.setContentType("application/json");
+			// Заглушка пока
+			int userId = currentUser.getId();
+
 			String reqWhat = req.getParameter("req");
 			if ("downloadbook".equals(reqWhat)) {
 				// Выгрузка книги будет идтить несколько по другому...
@@ -301,11 +203,7 @@ public class LibrarianServlet extends HttpServlet {
 
 						}).start();
 					} else if ("logoff".equals(reqWhat)) {
-						httpSessionStorage.remove(currentSID);
-						// Снимаем куку
-						Cookie cookie = new Cookie("sid", currentSID);
-						cookie.setMaxAge(0);
-						resp.addCookie(cookie);
+						httpSess.removeAttribute("user");
 						return;
 					} else if ("authors".equals(reqWhat)
 							|| "authorslist".equals(reqWhat)) {
@@ -644,13 +542,18 @@ public class LibrarianServlet extends HttpServlet {
 	 * @return true, если такой пользователь существует; false - иначе
 	 */
 	protected LibUser validateLogin(String userName, String plainPassword) {
-		return (LibUser) sess
-				.createCriteria(LibUser.class)
-				.add(Restrictions.and(
-						Restrictions.eq("name", userName),
-						Restrictions.eq("password",
-								CommonUtils.getMD5Password(plainPassword))))
-				.uniqueResult();
+		Session sess = libFactory.openSession();
+		try {
+			return (LibUser) sess
+					.createCriteria(LibUser.class)
+					.add(Restrictions.and(
+							Restrictions.eq("name", userName),
+							Restrictions.eq("password",
+									CommonUtils.getMD5Password(plainPassword))))
+					.uniqueResult();
+		} finally {
+			sess.close();
+		}
 	}
 
 	/**

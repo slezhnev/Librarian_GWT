@@ -6,6 +6,7 @@ import java.util.List;
 import ru.lsv.gwtlib.client.data.ClientAuthor;
 import ru.lsv.gwtlib.client.data.ClientBook;
 import ru.lsv.gwtlib.client.data.ClientBookInList;
+import ru.lsv.gwtlib.client.login.LoginPopupPanel;
 import ru.lsv.gwtlib.shared.RequestType;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -461,6 +462,9 @@ public class Librarian_GWT implements EntryPoint {
 		StringBuilder strUrl = new StringBuilder(GWT.getModuleBaseURL())
 				.append("librarian?req=touch");
 
+		final StartupPopupPanel startupPopup = new StartupPopupPanel();
+		startupPopup.setPopupPositionAndShow(startupPopup);
+
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
 				URL.encode(strUrl.toString()));
 
@@ -473,15 +477,18 @@ public class Librarian_GWT implements EntryPoint {
 					if (200 != response.getStatusCode()) {
 						// Если авторизация не прошла - выдаем запрос
 						// авторизации
+						startupPopup.hide();
 						LoginPopupPanel loginPopup = new LoginPopupPanel();
 						loginPopup.setPopupPositionAndShow(loginPopup);
+					} else {
+						startupPopup.hide();
 					}
 					logoffBtn.setEnabled(true);
 				}
 
 				@Override
 				public void onError(Request request, Throwable exception) {
-					errorLabel.setText(messages.serverSideError());
+					startupPopup.setMessage(messages.serverSideError());
 				}
 
 			});
