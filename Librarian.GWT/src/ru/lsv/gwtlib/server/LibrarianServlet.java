@@ -1028,8 +1028,14 @@ public class LibrarianServlet extends HttpServlet {
 						// ним
 						if (o2.getNumInSerie() != null)
 							if (o1.getNumInSerie().equals(o2.getNumInSerie())) {
-								return (new Integer(o1.getId()))
-										.compareTo(new Integer(o2.getId()));
+								if (o1.getId().equals(o2.getId())) {
+									return (new Integer(o1.getBookId())
+											.compareTo(new Integer(o2
+													.getBookId())));
+								} else {
+									return (new Integer(o1.getId()))
+											.compareTo(new Integer(o2.getId()));
+								}
 							} else
 								return o1.getNumInSerie().compareTo(
 										o2.getNumInSerie());
