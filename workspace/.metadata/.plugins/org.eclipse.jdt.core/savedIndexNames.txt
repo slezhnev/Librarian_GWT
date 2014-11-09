@@ -1,6 +1,0 @@
-INDEX VERSION 1.126+F:\Lsv\JavaProjects\Librarian_GWT\workspace\.metadata\.plugins\org.eclipse.jdt.core
-1915298825.index
-1006449295.index
-3515282563.index
-1945609499.index
-4144675614.index

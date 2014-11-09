@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy source folder &apos;android-support-v4.jar&apos; to &apos;libs&apos;&#x0D;&#x0A;- Original project: &apos;android-support-v7-appcompat&apos;&#x0D;&#x0A;- Destination element: &apos;libs&apos;&#x0D;&#x0A;- Original element: &apos;android-support-v7-appcompat/libs/android-support-v4.jar&apos;" description="Copy source folder" element1="/libs\/android-support-v4.jar" flags="6" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyRoots" roots="1" stamp="1408536052054" target="/Downloader.android/libs" version="1.0"/>
-</session>
