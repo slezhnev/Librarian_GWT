@@ -17,9 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -28,6 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -503,32 +503,38 @@ public class LibrarianServlet extends HttpServlet {
 		} catch (URISyntaxException e1) {
 			// Do nothing. Ибо чо тут сделаешь-то?
 		}
-		resp.setContentType("application/octet-stream");
-		try (ZipOutputStream out = new ZipOutputStream(resp.getOutputStream())) {
-			ZipFile zip = new ZipFile(arcFile);
-			for (Enumeration e = zip.entries(); e.hasMoreElements();) {
-				ZipEntry ze = (ZipEntry) e.nextElement();
-				String name = ze.getName();
-				String id = name.substring(0, name.indexOf("."));
-				if (id.equals(book.getId())) {
-					// Во - нашли книгу. Поехали ее доставать куда-нито
-					try (InputStream in = zip.getInputStream(ze)) {
-						out.setLevel(9);
-						ZipEntry outEntry = new ZipEntry(book.getId() + ".fb2");
-						out.putNextEntry(outEntry);
-						byte[] buffer = new byte[100000];
-						while (true) {
-							int amountRead = in.read(buffer);
-							if (amountRead == -1) {
-								break;
+		try {
+			resp.setContentType("application/octet-stream");
+			try (ZipArchiveOutputStream out = new ZipArchiveOutputStream(
+					resp.getOutputStream())) {
+				ZipFile zip = new ZipFile(arcFile);
+				for (Enumeration e = zip.getEntries(); e.hasMoreElements();) {
+					ZipArchiveEntry ze = (ZipArchiveEntry) e.nextElement();
+					String name = ze.getName();
+					String id = name.substring(0, name.indexOf("."));
+					if (id.equals(book.getId())) {
+						// Во - нашли книгу. Поехали ее доставать куда-нито
+						try (InputStream in = zip.getInputStream(ze)) {
+							out.setLevel(9);
+							ZipArchiveEntry outEntry = new ZipArchiveEntry(
+									book.getId() + ".fb2");
+							out.putArchiveEntry(outEntry);
+							byte[] buffer = new byte[100000];
+							while (true) {
+								int amountRead = in.read(buffer);
+								if (amountRead == -1) {
+									break;
+								}
+								out.write(buffer, 0, amountRead);
 							}
-							out.write(buffer, 0, amountRead);
+							break;
 						}
-						break;
 					}
 				}
 			}
-
+		} catch (Throwable e) {
+			resp.sendError(502, "Got an exception \"" + e.getClass().getName()
+					+ "\" with message \"" + e.getMessage() + "\"");
 		}
 	}
 

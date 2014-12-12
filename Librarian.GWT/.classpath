@@ -29,5 +29,10 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/juniversalchardet-1.0.3.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/postgresql-9.3-1100.jdbc41.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Google.Gson"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-compress-1.9.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/Librarian.GWT/lib/commons-compress-1.9-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
