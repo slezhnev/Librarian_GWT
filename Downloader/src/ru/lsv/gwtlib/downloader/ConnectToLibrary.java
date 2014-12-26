@@ -292,6 +292,7 @@ public class ConnectToLibrary extends JDialog {
 			connected = true;
 			return true;
 		} else {
+			System.out.println(response.getStatusLine().getStatusCode());
 			errorLabel.setText("Ошибка авторизации");
 			httpPost.abort();
 			return false;

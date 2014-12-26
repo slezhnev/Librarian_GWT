@@ -45,4 +45,7 @@
 <fullyQualifiedTypeName name="java.lang.NumberFormatException"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
 <fullyQualifiedTypeName name="com.google.gwt.i18n.client.Messages"/>
+<fullyQualifiedTypeName name="ru.lsv.gwtlib.server.data.CommonUtils"/>
+<fullyQualifiedTypeName name="org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream"/>
+<fullyQualifiedTypeName name="org.apache.commons.compress.archivers.zip.ZipFile"/>
 </qualifiedTypeNameHistroy>

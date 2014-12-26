@@ -527,6 +527,7 @@ public class LibrarianServlet extends HttpServlet {
 								}
 								out.write(buffer, 0, amountRead);
 							}
+							out.closeArchiveEntry();
 							break;
 						}
 					}

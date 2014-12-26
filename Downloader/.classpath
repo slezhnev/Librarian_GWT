@@ -13,6 +13,11 @@
 	<classpathentry kind="lib" path="lib/HTTPClient/httpmime-4.2.2.jar"/>
 	<classpathentry kind="lib" path="lib/HTTPClient/commons-codec-1.6.jar"/>
 	<classpathentry kind="lib" path="lib/HTTPClient/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Google.Gson"/>
+	<classpathentry kind="lib" path="I:/JavaProjects/Librarian.GWT/Librarian.GWT/google.gson/gson-2.2.4.jar" sourcepath="I:/JavaProjects/Librarian.GWT/Librarian.GWT/google.gson/gson-2.2.4-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/I:/JavaProjects/Librarian.GWT/Librarian.GWT/google.gson/gson-2.2.4-javadoc.jar!/"/>
+			<attribute name="source_encoding" value="UTF-8"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
