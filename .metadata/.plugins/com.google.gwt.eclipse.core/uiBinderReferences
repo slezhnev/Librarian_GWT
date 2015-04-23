@@ -36,14 +36,8 @@
 </reference>
 </references>
 </referenceManager>
-<uiBinderSubtypeToOwner>
-<entry owner="ru.lsv.gwtlib.client.login.LoginUI" uiBinder="=Librarian.GWT/src&lt;ru.lsv.gwtlib.client.login{LoginUI.java[LoginUI[LoginUIUiBinder"/>
-<entry owner="ru.lsv.gwtlib.client.StatusPopup" uiBinder="=Librarian.GWT/src&lt;ru.lsv.gwtlib.client{StatusPopup.java[StatusPopup[StatusPopupUiBinder"/>
-</uiBinderSubtypeToOwner>
-<uiBinderSubtypeToUiXml>
-<entry uiBinder="=Librarian.GWT/src&lt;ru.lsv.gwtlib.client{StatusPopup.java[StatusPopup[StatusPopupUiBinder" uiXmlPath="ru/lsv/gwtlib/client/StatusPopup.ui.xml"/>
-<entry uiBinder="=Librarian.GWT/src&lt;ru.lsv.gwtlib.client.login{LoginUI.java[LoginUI[LoginUIUiBinder" uiXmlPath="ru/lsv/gwtlib/client/login/LoginUI.ui.xml"/>
-</uiBinderSubtypeToUiXml>
+<uiBinderSubtypeToOwner/>
+<uiBinderSubtypeToUiXml/>
 <uiXmlReferencedFields>
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/login/LoginUI.ui.xml" name="passwordEdit"/>
 <uiField location="/Librarian.GWT/src/ru/lsv/gwtlib/client/login/LoginUI.ui.xml" name="loginBtn"/>

@@ -177,7 +177,7 @@ public class LibrarianServlet extends HttpServlet {
 				}
 				int downloadType;
 				try {
-					downloadType = Integer.valueOf(req.getParameter("bookid"));
+					downloadType = Integer.valueOf(req.getParameter("type"));
 				} catch (NumberFormatException ex) {
 					downloadType = 0;
 				}

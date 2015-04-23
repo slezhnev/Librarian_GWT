@@ -82,7 +82,7 @@ public class ConnectToLibrary extends JDialog {
 	/**
 	 * Путь сохранения. Используется в Downloader
 	 */
-	private String savePath = "";
+	private String savePath = null;
 	/**
 	 * Тип скачивания. Используется в Downloader
 	 */
@@ -242,7 +242,10 @@ public class ConnectToLibrary extends JDialog {
 		prop.setProperty("address", addressText.getText());
 		prop.setProperty("username", userNameText.getText());
 		prop.setProperty("url", requestUrl);
-		prop.setProperty("path_" + userNameText.getText(), savePath);
+		// Пути сохраняем только после того, как оне были загружены
+		if (savePath != null) {
+			prop.setProperty("path_" + userNameText.getText(), savePath);
+		}
 		prop.setProperty("downloadType_" + userNameText.getText(),
 				String.valueOf(downloadType));
 		try {
