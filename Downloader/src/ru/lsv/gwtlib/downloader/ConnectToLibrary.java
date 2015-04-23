@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import javax.swing.JButton;
@@ -81,7 +82,11 @@ public class ConnectToLibrary extends JDialog {
 	/**
 	 * Путь сохранения. Используется в Downloader
 	 */
-	private String savePath = null;
+	private String savePath = "";
+	/**
+	 * Тип скачивания. Используется в Downloader
+	 */
+	private int downloadType = 0;
 
 	/**
 	 * Обработчик нажатия Enter и Esc в edit'ах
@@ -119,7 +124,7 @@ public class ConnectToLibrary extends JDialog {
 
 		EnterEscHandler enterHandler = new EnterEscHandler();
 
-		setTitle("\u041F\u043E\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435 \u043A \u0431\u0438\u0431\u043B\u0438\u043E\u0442\u0435\u043A\u0435");
+		setTitle("Подключение к библиотеке");
 		setBounds(100, 100, 441, 196);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -237,7 +242,9 @@ public class ConnectToLibrary extends JDialog {
 		prop.setProperty("address", addressText.getText());
 		prop.setProperty("username", userNameText.getText());
 		prop.setProperty("url", requestUrl);
-		prop.setProperty("path", savePath);
+		prop.setProperty("path_" + userNameText.getText(), savePath);
+		prop.setProperty("downloadType_" + userNameText.getText(),
+				String.valueOf(downloadType));
 		try {
 			prop.store(new FileOutputStream("downloader.properties"),
 					"downloader.properties");
@@ -309,16 +316,16 @@ public class ConnectToLibrary extends JDialog {
 			addressText.setText(prop.getProperty("address"));
 			userNameText.setText(prop.getProperty("username"));
 			requestUrl = prop.getProperty("url");
-			savePath = prop.getProperty("path");
+			// savePath = prop.getProperty("path");
 		} catch (FileNotFoundException e) {
 		} catch (IOException e) {
 		}
 		if ((requestUrl == null) || (requestUrl.trim().length() == 0)) {
 			requestUrl = "/librarian_gwt/librarian_gwt/librarian";
 		}
-		if (savePath == null) {
-			savePath = "";
-		}
+		// if (savePath == null) {
+		// savePath = "";
+		// }
 	}
 
 	public boolean isConnected() {
@@ -330,11 +337,49 @@ public class ConnectToLibrary extends JDialog {
 	}
 
 	public String getSavePath() {
+		// Оно будет возвращать save path для каждого юзера ОТДЕЛЬНО
+		Properties prop = new Properties();
+		try {
+			prop.load(new FileInputStream("downloader.properties"));
+			savePath = prop.getProperty("path_" + userNameText.getText());
+		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
+		}
+		if (savePath == null) {
+			savePath = "";
+		}
 		return savePath;
 	}
 
 	public void setSavePath(String savePath) {
 		this.savePath = savePath;
+	}
+
+	/**
+	 * @return the downloadType
+	 */
+	public int getDownloadType() {
+		// Оно будет возвращать download type для каждого юзера ОТДЕЛЬНО
+		Properties prop = new Properties();
+		try {
+			prop.load(new FileInputStream("downloader.properties"));
+			Optional.ofNullable(
+					prop.getProperty("downloadType_" + userNameText.getText()))
+					.ifPresent(str -> {
+						downloadType = Integer.valueOf(str);
+					});
+		} catch (Exception e) {
+			downloadType = 0;
+		}
+		return downloadType;
+	}
+
+	/**
+	 * @param downloadType
+	 *            the downloadType to set
+	 */
+	public void setDownloadType(int downloadType) {
+		this.downloadType = downloadType;
 	}
 
 }

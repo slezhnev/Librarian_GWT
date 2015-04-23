@@ -7,6 +7,7 @@ package ru.lsv.gwtlib.server;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.zip.ZipException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -173,8 +175,14 @@ public class LibrarianServlet extends HttpServlet {
 					resp.sendError(400, "Non valid \"bookid\" parameter");
 					return;
 				}
+				int downloadType;
+				try {
+					downloadType = Integer.valueOf(req.getParameter("bookid"));
+				} catch (NumberFormatException ex) {
+					downloadType = 0;
+				}
 				// Выгружаем нахфиг книгу
-				downloadBook(bookId, resp);
+				downloadBook(bookId, downloadType, resp);
 			} else {
 				resp.setCharacterEncoding("UTF-8");
 				resp.setContentType("application/json");
@@ -473,15 +481,16 @@ public class LibrarianServlet extends HttpServlet {
 	 * 
 	 * @param bookId
 	 *            Идентификатор книги
+	 * @param downloadType
+	 *            Тип загрузки. 0 - fb2.zip, 1 - fb2
 	 * @param resp
 	 *            Responce, куда выполнять выгрузку
 	 * @throws IOException
 	 *             В случае проблем ввода/вывода (генерирует resp.sendError и
 	 *             т.п.
 	 */
-	@SuppressWarnings({ "rawtypes", "resource" })
-	private void downloadBook(int bookId, HttpServletResponse resp)
-			throws IOException {
+	private void downloadBook(int bookId, int downloadType,
+			HttpServletResponse resp) throws IOException {
 		Book book = getBook(bookId);
 		if (book == null) {
 			resp.sendError(404, "Cannot find book with bookId");
@@ -493,8 +502,16 @@ public class LibrarianServlet extends HttpServlet {
 			resp.sendError(404, "Cannot find zip file for book");
 			return;
 		}
-		String outputFileName = Utils.cleanFileName(book.toString().trim())
-				+ ".fb2.zip";
+		String outputFileName = Utils.cleanFileName(book.toString().trim());
+		switch (downloadType) {
+		case 1: {
+			outputFileName = outputFileName + ".fb2";
+			break;
+		}
+		default: {
+			outputFileName = outputFileName + ".fb2.zip";
+		}
+		}
 		try {
 			URI uri = new URI(null, null, outputFileName, null);
 			String disposition = "attachment; filename*=UTF-8''"
@@ -505,37 +522,74 @@ public class LibrarianServlet extends HttpServlet {
 		}
 		try {
 			resp.setContentType("application/octet-stream");
-			try (ZipArchiveOutputStream out = new ZipArchiveOutputStream(
-					resp.getOutputStream())) {
-				ZipFile zip = new ZipFile(arcFile);
-				for (Enumeration e = zip.getEntries(); e.hasMoreElements();) {
-					ZipArchiveEntry ze = (ZipArchiveEntry) e.nextElement();
-					String name = ze.getName();
-					String id = name.substring(0, name.indexOf("."));
-					if (id.equals(book.getId())) {
-						// Во - нашли книгу. Поехали ее доставать куда-нито
-						try (InputStream in = zip.getInputStream(ze)) {
-							out.setLevel(9);
-							ZipArchiveEntry outEntry = new ZipArchiveEntry(
-									book.getId() + ".fb2");
-							out.putArchiveEntry(outEntry);
-							byte[] buffer = new byte[100000];
-							while (true) {
-								int amountRead = in.read(buffer);
-								if (amountRead == -1) {
-									break;
-								}
-								out.write(buffer, 0, amountRead);
-							}
-							out.closeArchiveEntry();
-							break;
-						}
-					}
+			switch (downloadType) {
+			case 1: {
+				try (OutputStream out = resp.getOutputStream()) {
+					doStoreBook(book, arcFile, out);
 				}
+				break;
+			}
+			default: {
+				try (ZipArchiveOutputStream out = new ZipArchiveOutputStream(
+						resp.getOutputStream())) {
+					doStoreBook(book, arcFile, out);
+				}
+			}
 			}
 		} catch (Throwable e) {
 			resp.sendError(502, "Got an exception \"" + e.getClass().getName()
 					+ "\" with message \"" + e.getMessage() + "\"");
+		}
+	}
+
+	/**
+	 * Выкачивает файл из архива и выдает его в выходной поток
+	 * 
+	 * @param book
+	 *            Книга
+	 * @param arcFile
+	 *            Архив
+	 * @param out
+	 *            Выходной поток (если он ZipArchiveOutputStream, то
+	 *            автоматически добавятся ZipArchiveEntry с ее последующим
+	 *            заркытием)
+	 * @throws IOException
+	 *             В случае ошибок ввода/вывода
+	 * @throws ZipException
+	 *             В случае ошибок работы с zip-потоком
+	 */
+	private void doStoreBook(Book book, File arcFile, OutputStream out)
+			throws IOException, ZipException {
+		try (ZipFile zip = new ZipFile(arcFile)) {
+			for (Enumeration<ZipArchiveEntry> e = zip.getEntries(); e
+					.hasMoreElements();) {
+				ZipArchiveEntry ze = (ZipArchiveEntry) e.nextElement();
+				String name = ze.getName();
+				String id = name.substring(0, name.indexOf("."));
+				if (id.equals(book.getId())) {
+					// Во - нашли книгу. Поехали ее доставать куда-нито
+					try (InputStream in = zip.getInputStream(ze)) {
+						if (out instanceof ZipArchiveOutputStream) {
+							((ZipArchiveOutputStream) out).setLevel(9);
+							((ZipArchiveOutputStream) out)
+									.putArchiveEntry(new ZipArchiveEntry(book
+											.getId() + ".fb2"));
+						}
+						byte[] buffer = new byte[100000];
+						while (true) {
+							int amountRead = in.read(buffer);
+							if (amountRead == -1) {
+								break;
+							}
+							out.write(buffer, 0, amountRead);
+						}
+						if (out instanceof ZipArchiveOutputStream) {
+							((ZipArchiveOutputStream) out).closeArchiveEntry();
+						}
+						break;
+					}
+				}
+			}
 		}
 	}
 

@@ -1,2 +1,2 @@
 eclipse.preferences.version=1
-task-tag-projects-already-scanned=Converter,Librarian.GWT,Downloader,Downloader.android,android-support-v7-appcompat
+task-tag-projects-already-scanned=Downloader,Downloader.android,Librarian.GWT

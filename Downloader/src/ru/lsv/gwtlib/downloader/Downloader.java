@@ -21,9 +21,11 @@ import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
@@ -59,6 +61,7 @@ public class Downloader {
 	private ConnectToLibrary connectDialog;
 	private JProgressBar progressBar;
 	private JButton downloadBtn;
+	private JComboBox<String> downloadType;
 	/**
 	 * Список книг к скачиванию
 	 */
@@ -115,13 +118,22 @@ public class Downloader {
 		frame.setBounds(100, 100, 747, 684);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frame.setLocationRelativeTo(null);
 
 		booksTree = new JTree();
 		booksTree.setRootVisible(false);
-		frame.getContentPane().add(booksTree);
+		frame.getContentPane().add(booksTree, BorderLayout.CENTER);
 
-		downloadBtn = new JButton(
-				"\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C \u043A\u043D\u0438\u0433\u0438");
+		JPanel downPanel = new JPanel();
+		downPanel.setLayout(new BorderLayout());
+		frame.getContentPane().add(downPanel, BorderLayout.SOUTH);
+
+		String[] downloadTypeItems = { "fb2.zip", "fb2" };
+		downloadType = new JComboBox<>(downloadTypeItems);
+		downloadType.setSelectedIndex(0);
+		downPanel.add(downloadType, BorderLayout.LINE_START);
+
+		downloadBtn = new JButton("Загрузить книги");
 		downloadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				doDownload();
@@ -131,8 +143,7 @@ public class Downloader {
 				.setIcon(new ImageIcon(
 						Downloader.class
 								.getResource("/ru/lsv/gwtlib/downloader/resources/save_as_16_h.png")));
-		frame.getContentPane().add(downloadBtn, BorderLayout.SOUTH);
-		frame.setLocationRelativeTo(null);
+		downPanel.add(downloadBtn, BorderLayout.CENTER);
 
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
 		DefaultMutableTreeNode loading = new DefaultMutableTreeNode(
@@ -158,6 +169,7 @@ public class Downloader {
 
 			@Override
 			public void run() {
+				downloadType.setSelectedIndex(connectDialog.getDownloadType());
 				loadBooks();
 			}
 
@@ -187,6 +199,7 @@ public class Downloader {
 			final String saveTo = chooser.getSelectedFile().getAbsolutePath();
 			// Сохраняем путь...
 			connectDialog.setSavePath(saveTo);
+			connectDialog.setDownloadType(downloadType.getSelectedIndex());
 			connectDialog.saveProperties();
 			//
 			downloadBtn.setEnabled(false);
@@ -214,8 +227,7 @@ public class Downloader {
 												.getAuthorsToString()));
 						if (book.getSerieName() != null) {
 							pathToStore.append(File.separator).append(
-									cleanFileName(book.getSerieName()
-											.trim()));
+									cleanFileName(book.getSerieName().trim()));
 						}
 						File outFile = new File(pathToStore.toString());
 						if ((!outFile.exists()) && (!outFile.mkdirs())) {
@@ -227,7 +239,8 @@ public class Downloader {
 						// Выгружаем книгу
 						StringBuilder strUrl = new StringBuilder(connectDialog
 								.getUrl()).append("?req=downloadbook&bookid=")
-								.append(book.getBookId());
+								.append(book.getBookId()).append("&type=")
+								.append(downloadType.getSelectedIndex());
 						HttpGet httpGet = new HttpGet(strUrl.toString());
 						final HttpResponse response;
 						try {
@@ -582,33 +595,40 @@ public class Downloader {
 		}
 	}
 
-    /**
-     * Обработка и уделаление из имени файла всякой ненужной пакости. <br/>
-     * Копипаст фром http://stackoverflow.com/questions/1155107/is-there-a-cross-platform-java-method-to-remove-filename-special-chars
-     */
-    final static int[] illegalChars = {34, 60, 62, 124, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 58, 42, 63, 92, 47};
-    static {
-        Arrays.sort(illegalChars);
-    }
+	/**
+	 * Обработка и уделаление из имени файла всякой ненужной пакости. <br/>
+	 * Копипаст фром
+	 * http://stackoverflow.com/questions/1155107/is-there-a-cross-
+	 * platform-java-method-to-remove-filename-special-chars
+	 */
+	final static int[] illegalChars = { 34, 60, 62, 124, 0, 1, 2, 3, 4, 5, 6,
+			7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+			24, 25, 26, 27, 28, 29, 30, 31, 58, 42, 63, 92, 47 };
+	static {
+		Arrays.sort(illegalChars);
+	}
 
-    /**
-     * Выкидывает из имени файла недопустустимые символы
-     * @param badFileName Имя файла для обработки
-     * @return Имя файла, из которого выкинуты все недопустимые символы
-     */
-    public static String cleanFileName(String badFileName) {
-        StringBuilder cleanName = new StringBuilder();
-        for (int i = 0; i < badFileName.length(); i++) {
-            int c = (int)badFileName.charAt(i);
-            if (Arrays.binarySearch(illegalChars, c) < 0) {
-                cleanName.append((char)c);
-            }
-        }
-        // Дополнительно проверим на '..'
-        while (cleanName.indexOf("..") > -1) {
-            cleanName.replace(cleanName.indexOf(".."), cleanName.indexOf("..") + 2, "__");
-        }
-        return cleanName.toString();
-    }
+	/**
+	 * Выкидывает из имени файла недопустустимые символы
+	 * 
+	 * @param badFileName
+	 *            Имя файла для обработки
+	 * @return Имя файла, из которого выкинуты все недопустимые символы
+	 */
+	public static String cleanFileName(String badFileName) {
+		StringBuilder cleanName = new StringBuilder();
+		for (int i = 0; i < badFileName.length(); i++) {
+			int c = (int) badFileName.charAt(i);
+			if (Arrays.binarySearch(illegalChars, c) < 0) {
+				cleanName.append((char) c);
+			}
+		}
+		// Дополнительно проверим на '..'
+		while (cleanName.indexOf("..") > -1) {
+			cleanName.replace(cleanName.indexOf(".."),
+					cleanName.indexOf("..") + 2, "__");
+		}
+		return cleanName.toString();
+	}
 
 }
