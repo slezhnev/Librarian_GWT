@@ -1,0 +1,40 @@
+apply plugin: 'java'
+
+compileJava.options.encoding = 'UTF-8'
+
+sourceCompatibility = 1.7
+version = '1.0'
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+        resources {
+            srcDir 'src'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+        compile 'com.jgoodies:jgoodies-looks:2.5.3'
+        compile 'org.apache.httpcomponents:httpclient:4.2.2'
+        compile 'com.google.code.gson:gson:2.2.4'
+}
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Downloader for Librarian.GWT',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'ru.lsv.gwtlib.downloader.Downloader'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+

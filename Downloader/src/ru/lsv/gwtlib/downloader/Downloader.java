@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,8 +42,6 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
-
-import ru.lsv.gwtlib.server.data.Utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -211,11 +210,11 @@ public class Downloader {
 						final StringBuffer pathToStore = new StringBuffer(
 								saveTo
 										+ File.separator
-										+ Utils.cleanFileName(book
+										+ cleanFileName(book
 												.getAuthorsToString()));
 						if (book.getSerieName() != null) {
 							pathToStore.append(File.separator).append(
-									Utils.cleanFileName(book.getSerieName()
+									cleanFileName(book.getSerieName()
 											.trim()));
 						}
 						File outFile = new File(pathToStore.toString());
@@ -582,5 +581,34 @@ public class Downloader {
 			}
 		}
 	}
+
+    /**
+     * Обработка и уделаление из имени файла всякой ненужной пакости. <br/>
+     * Копипаст фром http://stackoverflow.com/questions/1155107/is-there-a-cross-platform-java-method-to-remove-filename-special-chars
+     */
+    final static int[] illegalChars = {34, 60, 62, 124, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 58, 42, 63, 92, 47};
+    static {
+        Arrays.sort(illegalChars);
+    }
+
+    /**
+     * Выкидывает из имени файла недопустустимые символы
+     * @param badFileName Имя файла для обработки
+     * @return Имя файла, из которого выкинуты все недопустимые символы
+     */
+    public static String cleanFileName(String badFileName) {
+        StringBuilder cleanName = new StringBuilder();
+        for (int i = 0; i < badFileName.length(); i++) {
+            int c = (int)badFileName.charAt(i);
+            if (Arrays.binarySearch(illegalChars, c) < 0) {
+                cleanName.append((char)c);
+            }
+        }
+        // Дополнительно проверим на '..'
+        while (cleanName.indexOf("..") > -1) {
+            cleanName.replace(cleanName.indexOf(".."), cleanName.indexOf("..") + 2, "__");
+        }
+        return cleanName.toString();
+    }
 
 }
