@@ -1,0 +1,75 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'gwt'
+apply plugin: 'eclipse'
+
+compileJava.options.encoding = 'UTF-8'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+buildscript {
+	repositories {
+		jcenter() //repository where to fetch gwt gradle plugin
+	}
+	dependencies {
+		classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+	}
+}
+
+project.webAppDirName = 'war'
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+        resources {
+            srcDir 'src'
+        }
+    }
+}
+
+repositories {
+	maven {
+		url "http://download.java.net/maven/2/"
+	}
+    mavenCentral()
+}
+
+configurations {
+    runtime.exclude module:"gwt-user"
+}
+
+dependencies {
+	 
+	compile	'com.google.gwt:gwt-user:2.5.0', 
+			'com.google.code.gson:gson:2.2.4',
+			'com.googlecode.juniversalchardet:juniversalchardet:1.0.3',
+			'org.apache.commons:commons-compress:1.9',
+			'org.hibernate:hibernate:3.2.6.ga',
+			'org.hibernate:hibernate-annotations:3.2.1.ga'
+	runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
+}
+
+war {
+	from files('war/favicon.ico', 'war/Librarian_GWT.css', 'war/Librarian_GWT.html')
+	webXml = file('war/WEB-INF/web.xml')
+}
+
+
+gwt {
+	gwtVersion='2.5.0'
+	modules 'ru.lsv.gwtlib.Librarian_GWT'
+	sourceSets {
+		main {
+	    	java {
+	        	srcDir 'src'
+	        }
+	    }
+	}
+	logLevel = 'ERROR'
+	minHeapSize = "512M";
+	maxHeapSize = "1024M";
+}
+
