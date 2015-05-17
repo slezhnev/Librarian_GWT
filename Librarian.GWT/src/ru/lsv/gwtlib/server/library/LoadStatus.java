@@ -34,6 +34,10 @@ public class LoadStatus {
 	 * Номер nекущего обрабатываемого файл
 	 */
 	private int currentFileToProcess = 0;
+	/**
+	 * Признак ошибки при загрузке
+	 */
+	private boolean wasErrorOnLoad = false;
 
 	/**
 	 * Hide constructor
@@ -68,6 +72,7 @@ public class LoadStatus {
 		res.totalArcsToProcess = this.totalArcsToProcess;
 		res.totalFilesToProcess = this.totalFilesToProcess;
 		res.currentLibrary = this.currentLibrary;
+		res.wasErrorOnLoad = this.wasErrorOnLoad;
 		return res;
 	}
 
@@ -194,6 +199,20 @@ public class LoadStatus {
 	}
 
 	/**
+	 * @return the wasErrorOnLoad
+	 */
+	public boolean isWasErrorOnLoad() {
+		return wasErrorOnLoad;
+	}
+
+	/**
+	 * @param wasErrorOnLoad the wasErrorOnLoad to set
+	 */
+	public void setWasErrorOnLoad(boolean wasErrorOnLoad) {
+		this.wasErrorOnLoad = wasErrorOnLoad;
+	}
+
+	/**
 	 * Сбрасывает состояние в "исходное"
 	 */
 	public synchronized void clear() {
@@ -203,6 +222,7 @@ public class LoadStatus {
 		currentArcName = "";
 		totalFilesToProcess = 0;
 		currentFileToProcess = 0;
+		wasErrorOnLoad = false;
 	}
 
 }

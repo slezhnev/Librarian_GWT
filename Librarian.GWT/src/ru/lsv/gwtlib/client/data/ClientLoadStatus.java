@@ -21,6 +21,13 @@ public class ClientLoadStatus extends JavaScriptObject {
 	}
 
 	/**
+	 * Признак того, что в процессе загрузки случилась ошибка
+	 */
+	public final native String wasErrorOnLoad() /*-{
+		return this.wasErrorOnLoad;
+	}-*/;
+
+	/**
 	 * Название текущей обрабатываемой библиотеки
 	 */
 	public final native String getCurrentLibrary() /*-{

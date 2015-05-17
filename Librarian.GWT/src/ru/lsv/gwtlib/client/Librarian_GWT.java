@@ -653,16 +653,26 @@ public class Librarian_GWT implements EntryPoint {
 		SafeHtmlBuilder str = new SafeHtmlBuilder();
 		str.append(SafeHtmlUtils.fromTrustedString("<b>" + messages.bookName()
 				+ ": </b>&nbsp;"));
+		if (book.getTitle() == null)
+			str.appendEscaped(messages.noBookName());
+		else
+			str.appendEscaped(book.getTitle());
+		str.append(SafeHtmlUtils.fromTrustedString("&nbsp;(&nbsp;"));
 		StringBuilder strUrl = new StringBuilder(GWT.getModuleBaseURL())
 				.append("librarian?&req=downloadbook&bookid=").append(
 						book.getBookId());
 		str.appendHtmlConstant("<a href=" + strUrl.toString()
 				+ " target=_blank>");
-		if (book.getTitle() == null)
-			str.appendEscaped(messages.noBookName());
-		else
-			str.appendEscaped(book.getTitle());
+		str.append(SafeHtmlUtils.fromTrustedString("fb2.zip"));
 		str.appendHtmlConstant("</a>");
+		str.append(SafeHtmlUtils.fromTrustedString("&nbsp;&nbsp;"));
+		strUrl = new StringBuilder(GWT.getModuleBaseURL()).append(
+				"librarian?&req=downloadbook&type=1&bookid=").append(book.getBookId());
+		str.appendHtmlConstant("<a href=" + strUrl.toString()
+				+ " target=_blank>");
+		str.append(SafeHtmlUtils.fromTrustedString("fb2"));
+		str.appendHtmlConstant("</a>");
+		str.append(SafeHtmlUtils.fromTrustedString("&nbsp;)"));
 		str.appendHtmlConstant("<br>");
 		if ((book.getSerieName() != null)
 				&& (book.getSerieName().trim().length() > 0)) {

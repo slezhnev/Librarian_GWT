@@ -59,4 +59,12 @@ public interface StatusPopupMessages extends Messages {
 	 */
 	@DefaultMessage("No current checks")
 	String noCheck();
+
+	/**
+	 * Случилась ошибка при загрузке
+	 * 
+	 * @return см.описание
+	 */
+	@DefaultMessage("Loading new books failed")
+	String wasError();
 }

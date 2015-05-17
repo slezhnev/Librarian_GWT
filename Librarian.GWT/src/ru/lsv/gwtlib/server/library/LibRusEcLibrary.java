@@ -55,12 +55,15 @@ public class LibRusEcLibrary implements LibraryRealization {
 		// Получим список zip-файлов в директории
 		File storage = new File(library.getStoragePath());
 		String[] fileArray = storage.list(new FilenameFilter() {
-
 			@Override
 			public boolean accept(File dir, String name) {
 				return name.endsWith(".zip");
 			}
 		});
+		// Если оно пустой или нулевой длины - то что-то сломалось в проверке
+		if ((fileArray == null) || (fileArray.length == 0)) {
+			return null;
+		}
 		// TreeSet<String> files = new
 		// TreeSet<String>(Arrays.asList(fileArray));
 		Session sess = null;

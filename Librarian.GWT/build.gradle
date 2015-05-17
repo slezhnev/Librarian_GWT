@@ -52,12 +52,6 @@ dependencies {
 	runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
 }
 
-war {
-	from files('war/favicon.ico', 'war/Librarian_GWT.css', 'war/Librarian_GWT.html')
-	webXml = file('war/WEB-INF/web.xml')
-}
-
-
 gwt {
 	gwtVersion='2.5.0'
 	modules 'ru.lsv.gwtlib.Librarian_GWT'

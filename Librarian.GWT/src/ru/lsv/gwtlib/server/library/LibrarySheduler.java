@@ -132,13 +132,16 @@ public class LibrarySheduler {
 					}
 					if (libRes != null) {
 						// Что-то начинаем делать...
-						if (libRes.IsNewBooksPresent() == 1) {
+						int res = libRes.IsNewBooksPresent(); 
+						if (res == 1) {
 							// Чота есть!
 							LibraryProcessingCallback callback = new LibraryProcessingCallback();
 							// Запущаем!
 							libRes.processNewBooks(callback, callback);
 							// В завершении - сбросим все в LoadStatus
 							LoadStatus.getInstance().clear();
+						} else if (res == -1) {
+							LoadStatus.getInstance().setWasErrorOnLoad(true);
 						}
 					}
 				}
